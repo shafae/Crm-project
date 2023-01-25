@@ -10,6 +10,8 @@ router.post("/addUnit/:buildId", unit.addUnit)
 router.get("/getUnit/:id", unit.getUnit)
 
 router.get("/getAllUnits", unit.allUnits)
+router.get("/getAllBuildingUnits", unit.allBuildingUnits)
+
 router.patch("/editUnit/:id", unit.editUnit)
 
 router.delete("/deleteUnit/:id", unit.deleteUnit)

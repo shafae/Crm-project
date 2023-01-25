@@ -11,6 +11,8 @@ router.post("/addBuilding/:projId", building.addBuilding)
 router.get("/getBuilding/:id", building.getBuilding)
 
 router.get("/getAllBuildings", building.allBuildings)
+router.get("/getAllProjectBuildings", building.allProjectBuildings)
+
 router.patch("/editBuilding/:id", building.editBuilding)
 
 router.delete("/deleteBuilding/:id", building.deleteBuilding)

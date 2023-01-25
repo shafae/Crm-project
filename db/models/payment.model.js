@@ -14,10 +14,18 @@ const paymentSchema = mongoose.Schema({
     },
     payMethod:{
         type:String,
-        enum:["cash","qarture","half","year"],
+        enum:["cash","quarter","half","yearly"],
         required:true
     },
     numOfYears:{
+        type:Number,
+        required:true
+    },
+    paid:{
+        type:Number,
+        required:true
+    },
+    left:{
         type:Number,
         required:true
     }

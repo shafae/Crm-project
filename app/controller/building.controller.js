@@ -68,6 +68,15 @@ class building {
         }
     }
 
+    static allProjectBuildings = async(req, res) => {
+        try {
+            const buildings = await buildingModel.find({ projectId: req.params.projId })
+            myHelper.resHandler(res, 200, true, buildings, "buildings fetched")
+        } catch (e) {
+            myHelper.resHandler(res, 500, false, e, e.message)
+        }
+    }
+
     static getBuilding = async(req, res) => {
         try {
             const building = await buildingModel.findById(req.params.id)

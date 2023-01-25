@@ -2,7 +2,7 @@ const unitModel = require("../../db/models/unit.model")
 const userModel = require("../../db/models/user.model")
 const myHelper = require("../helper")
 const fs = require("fs")
-class building {
+class unit {
 
     static addUnit = async(req, res) => {
         try {
@@ -78,10 +78,19 @@ class building {
         }
     }
 
+    static allBuildingUnits = async(req, res) => {
+        try {
+            const units = await unitModel.find({ buildingId: req.params.buildId })
+            myHelper.resHandler(res, 200, true, units, "units fetched")
+        } catch (e) {
+            myHelper.resHandler(res, 500, false, e, e.message)
+        }
+    }
+
     static buyUnit = async(req, res) => {
         try {
-            const client = await userModel.find({ email: req.body.email })
-            const unit = await unitModel.findOneAndUpdate({ _id: req.params.id }, { clientId: client[0]._id, status: "bought" })
+            const client = await userModel.findOne({ email: req.body.email })
+            const unit = await unitModel.findOneAndUpdate({ _id: req.params.id }, { clientId: client._id, status: "bought" })
             myHelper.resHandler(res, 200, true, "", "unit bought")
         } catch (e) {
             myHelper.resHandler(res, 500, false, e, e.message)
@@ -90,4 +99,4 @@ class building {
 
 
 }
-module.exports = building
+module.exports = unit
