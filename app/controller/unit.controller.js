@@ -16,7 +16,7 @@ class unit {
 
     static uploadUnitImg = async(req, res) => {
         try {
-            const unit = await buildingModel.findById(req.params.id)
+            const unit = await unitModel.findById(req.params.id)
             if (!unit) throw new Error("unit not found")
 
             req.files.map(async(file) => {

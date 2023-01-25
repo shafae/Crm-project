@@ -24,7 +24,7 @@ class role {
 
     static editRole = async(req, res) => {
         try {
-            const role = await roleModel.findOneAndUpdate({ _id: req.params.id }, {...req.body })
+            const role = await roleModel.findOneAndUpdate({ _id: req.params.id }, {title:req.body.title })
             if (!role) throw new Error("role not found")
             myHelper.resHandler(res, 200, true, " ", "data updated")
         } catch (e) {

@@ -1,7 +1,6 @@
 const userModel = require("../../db/models/user.model")
 const myHelper = require("../helper")
 const fs = require("fs")
-const upload = require("../middleware/fileUpload.middleware")
 class User {
     static register = async(req, res) => {
         try {
@@ -15,9 +14,9 @@ class User {
     }
     static login = async(req, res) => {
         try {
-            const userData = await userModel.loginUser(req.body.email, req.body.password)
+            const user = await userModel.loginUser(req.body.email, req.body.password)
             const token = await userData.generateToken()
-            myHelper.resHandler(res, 200, true, { user: userData, token }, "user added successfully")
+            myHelper.resHandler(res, 200, true, { user, token }, "user added successfully")
         } catch (e) {
             myHelper.resHandler(res, 500, false, e, e.message)
         }
@@ -90,7 +89,7 @@ class User {
     static uploadImage = async(req, res) => {
         try {
             const ext = req.file.originalname.split(".").pop()
-            const newName = "uploads/" + Date.now() + "testApp." + ext
+            const newName = "uploads/profile/" + Date.now() + "testApp." + ext
             fs.renameSync(req.file.path, newName)
             req.user.image = newName
             await req.user.save()
@@ -99,17 +98,7 @@ class User {
             myHelper.resHandler(res, 500, false, e, e.message)
         }
     }
-    static addMethods = async(req, res) => {
-        try {
-            if (!req.user.methods) req.user.methods = []
-            req.user.methods.push(req.body.methods)
-            await req.user.save()
-            myHelper.resHandler(res, 200, true, req.user, "updated")
-
-        } catch (e) {
-            myHelper.resHandler(res, 500, false, e, e.message)
-        }
-    }
+ 
 
     static editUser = async(req, res) => {
         try {

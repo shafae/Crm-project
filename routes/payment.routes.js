@@ -1,20 +1,23 @@
 const router = require("express").Router()
 const payment = require('../app/controller/payment.controller')
 const { auth } = require("../app/middleware/auth.middleware")
+const { checkRole } = require("../app/middleware/roleAuth.middleware")
 
 
 
-router.post("/addPayment/:id",auth, payment.addPayment)
+router.post("/addPayment/:id",auth,checkRole, payment.addPayment)
 
-router.get("/getProject/:id", payment.getPayment)
+router.get("/getPayment/:id",auth,checkRole, payment.getPayment)
 
-router.get("/getAllProjects", payment.allPayments)
-router.patch("/editProject/:id", payment.editPayment)
+router.get("/getAllPayments",auth,checkRole, payment.allPayments)
+router.get("/getAllUnitPayments/:unitId",auth,checkRole, payment.allUnitPayments)
 
-router.delete("/deleteProject/:id", payment.deletePayment)
+router.patch("/editPayment/:id",auth,checkRole, payment.editPayment)
 
-router.post("/generatePdf/:id", payment.generatePDF)
-router.get("/getPdf/:id", payment.getPdf)
+router.delete("/deletePayment/:id",auth,checkRole, payment.deletePayment)
+
+router.post("/generatePdf/:id",auth,checkRole, payment.generatePDF)
+router.get("/getPdf/:id",auth,checkRole, payment.getPdf)
 
 
 

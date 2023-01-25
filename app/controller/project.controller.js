@@ -52,7 +52,7 @@ class project {
     static deleteProject = async(req, res) => {
         try {
             const project = await projectModel.deleteOne({ _id: req.params.id })
-            if (!role) throw new Error("project not found")
+            if (!project) throw new Error("project not found")
             myHelper.resHandler(res, 200, true, " ", "project deleted")
         } catch (e) {
             myHelper.resHandler(res, 500, false, e, e.message)

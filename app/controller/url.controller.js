@@ -53,5 +53,17 @@ class url {
             myHelper.resHandler(res, 500, false, e, e.message)
         }
     }
+
+    static addRole = async(req, res) => {
+        try {
+            const url = await urlModel.findById(req.params.id)
+            url.roles.push(req.body.role)
+            await url.save()
+            myHelper.resHandler(res, 200, true, url, "updated")
+
+        } catch (e) {
+            myHelper.resHandler(res, 500, false, e, e.message)
+        }
+    }
 }
 module.exports = url

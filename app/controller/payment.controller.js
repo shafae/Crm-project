@@ -47,6 +47,15 @@ class payment {
         }
     }
 
+    static allUnitPayments = async(req, res) => {
+        try {
+            const Payments = await paymentModel.find({unitId:req.params.unitId})
+            myHelper.resHandler(res, 200, true, Payments, "Payments fetched")
+        } catch (e) {
+            myHelper.resHandler(res, 500, false, e, e.message)
+        }
+    }
+
     static getPayment = async(req, res) => {
         try {
             const payment = await paymentModel.findById(req.params.id)
