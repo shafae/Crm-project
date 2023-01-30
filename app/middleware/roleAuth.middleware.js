@@ -7,8 +7,7 @@ const checkRole = (async (req, res, next) => {
 	let reqUrl = req.originalUrl;
 	const reqParams = Object.keys(req.params);
 	const reqQuery = Object.keys(req.query);
-	dbUrl = await urlModel.find({link:reqUrl})
-		
+	dbUrl = await urlModel.find({"params":reqParams, "queries":reqQuery})
 	validUrl=dbUrl.find((item) => {
 		if (reqParams.length > 0) {
 			reqParams.forEach((paramKey) => {
@@ -27,15 +26,19 @@ const checkRole = (async (req, res, next) => {
 			});
 			reqUrl = reqUrl.replace("?", "");
 		}
-		if(req.user.roleName){
-			item.roles.forEach((role)=>{
-				if(role!=req.user.roleName) throw new Error("unauthorized role")
+		if(item.roles){
+			const role =item.roles.find((role)=>{
+				if((role.includes(req.user.roleName))) {
+					return role
+				}
 			})
+			if(!role)throw new Error("unauthorized role")
 		}
 
-
+			
 		return item.link == reqUrl;
 	});
+	
 	if (!validUrl) throw new Error("unauthorized url");
 	
 	next();
