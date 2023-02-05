@@ -5,7 +5,7 @@ const { checkRole } = require("../app/middleware/roleAuth.middleware")
 
 
 
-router.post("/addUrl", url.addUrl)
+router.post("/addUrl",auth,checkRole, url.addUrl)
 
 router.get("/getUrl/:id",auth,checkRole, url.getUrl)
 

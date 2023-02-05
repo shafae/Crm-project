@@ -1,5 +1,6 @@
 const urlModel = require("../../db/models/urls.model")
-const myHelper = require("../../app/helper")
+const myHelper = require("../../app/helper");
+const { query } = require("express");
 
 const checkRole = (async (req, res, next) => {
 	try{
@@ -7,20 +8,29 @@ const checkRole = (async (req, res, next) => {
 	let reqUrl = req.originalUrl;
 	const reqParams = Object.keys(req.params);
 	const reqQuery = Object.keys(req.query);
-	dbUrl = await urlModel.find({"params":reqParams, "queries":reqQuery})
+	dbUrl = await urlModel.find({"params":reqParams, "queries":reqQuery, "roles":req.user.roleName})
 	validUrl=dbUrl.find((item) => {
 		if (reqParams.length > 0) {
 			reqParams.forEach((paramKey) => {
-		
-				if (item.params.find(param=>{return param==paramKey})) {
+				const param=item.params.find(param=>{
+					if(param.includes(paramKey)){
+						return param
+						
+					}})
+					if(param) {
 					reqUrl = reqUrl.replace(`${req.params[paramKey]}`, "");
 				}
 				reqUrl = reqUrl.replace("//", "/");
+
 			});
 		}
 		if (reqQuery.length > 0) {
 			reqQuery.forEach((queryKey) => {
-				if (item.queries.find(query=>{return query==queryKey})) {
+				const query =item.queries.find(query=>{
+					if(query.includes(queryKey)){
+						return query
+					}})
+				if (query) {
 					reqUrl = reqUrl.replace(`${queryKey}=${req.query[queryKey]}`,"",);
 				}
 			});
@@ -34,9 +44,7 @@ const checkRole = (async (req, res, next) => {
 			})
 			if(!role)throw new Error("unauthorized role")
 		}
-
-			
-		return item.link == reqUrl;
+				return item.link == reqUrl;
 	});
 	
 	if (!validUrl) throw new Error("unauthorized url");

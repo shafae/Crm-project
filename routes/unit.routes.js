@@ -12,6 +12,7 @@ router.post("/addUnit/:buildId",auth,checkRole, unit.addUnit)
 router.get("/getUnit/:id", unit.getUnit)
 
 router.get("/getAllUnits",auth,checkRole, unit.allUnits)
+router.get("/getClientUnits",auth,checkRole, unit.getClientUnits)
 router.get("/getAllBuildingUnits/:buildId", unit.allBuildingUnits)
 
 router.patch("/editUnit/:id",auth,checkRole, unit.editUnit)

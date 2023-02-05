@@ -1,11 +1,11 @@
-const router = require("express").Router()
+const router = require("express").Router({mergeParams:true})
 const payment = require('../app/controller/payment.controller')
 const { auth } = require("../app/middleware/auth.middleware")
 const { checkRole } = require("../app/middleware/roleAuth.middleware")
 
 
 
-router.post("/addPayment/:id",auth,checkRole, payment.addPayment)
+router.post("/addPayment/:id/client/:clientId",auth,checkRole, payment.addPayment)
 
 router.get("/getPayment/:id",auth,checkRole, payment.getPayment)
 

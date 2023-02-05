@@ -57,7 +57,7 @@ class url {
     static addRole = async(req, res) => {
         try {
             const url = await urlModel.findById(req.params.id)
-            url.roles.push(req.body.role)
+            url.roles.push(req.body.roles)
             await url.save()
             myHelper.resHandler(res, 200, true, url, "updated")
 

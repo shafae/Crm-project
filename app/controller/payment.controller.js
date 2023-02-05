@@ -5,8 +5,7 @@ class payment {
 
     static addPayment = async(req, res) => {
         try {
-            const client = await unitModel.findById(req.params.id)
-            const payment = new paymentModel({clientId:client.clientId, employeeId: req.user.id, unitId:req.params.id, ...req.body })
+            const payment = new paymentModel({clientId:req.params.clientId, employeeId: req.user.id, unitId:req.params.id, ...req.body })
             await payment.save()
             myHelper.resHandler(res, 200, true, payment, "payment added successfully")
         } catch (e) {

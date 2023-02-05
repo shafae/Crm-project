@@ -9,7 +9,7 @@ router.post("/register",auth,checkRole,User.register)
 router.post("/login", User.login)
 
 router.get("/myProfile", auth,checkRole, User.profile)
-router.get("/", auth,checkRole, User.allUsers)
+router.get("", auth,checkRole, User.allUsers)
 router.get("/getUser/:id", auth,checkRole, User.getUser)
 
 router.post("/logout", auth,checkRole, User.logOut)

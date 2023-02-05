@@ -87,6 +87,15 @@ class unit {
         }
     }
 
+    static getClientUnits = async(req, res) => {
+        try {
+            const units = await unitModel.find({ clientId: req.user.id })
+            myHelper.resHandler(res, 200, true, units, "units fetched")
+        } catch (e) {
+            myHelper.resHandler(res, 500, false, e, e.message)
+        }
+    }
+
     static buyUnit = async(req, res) => {
         try {
             const client = await userModel.findOne({ email: req.body.email })

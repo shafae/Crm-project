@@ -31,7 +31,7 @@ class building {
             })
 
 
-            myHelper.resHandler(res, 200, true, "", "uploaded")
+            myHelper.resHandler(res, 200, true, building, "uploaded")
         } catch (e) {
             myHelper.resHandler(res, 500, false, e, e.message)
         }
